@@ -123,7 +123,7 @@ export const TableFilter = () => {
 								{/* <img className="logo" src={logo} alt="Logo" /> */}
 								<h2 style={{ marginBottom: "0px" }}>StartTalent</h2>
 							</div>
-							<i
+							{/* <i
 								class={
 									sidenavopen
 										? " fa-solid fa-arrow-left nope"
@@ -132,7 +132,7 @@ export const TableFilter = () => {
 								onClick={() => {
 									sidenavmanager();
 								}}
-							></i>
+							></i> */}
 						</div>
 					</div>
 					<ToastContainer />

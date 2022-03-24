@@ -81,4 +81,16 @@
         margin-top: 10px;
         width: 100%;
     }
+
+    .titleinfo{
+      font-size: 16px;
+      font-family: 'Rubik', sans-serif;
+      color: blueviolet;
+    }
+  
+    .titlenumber{
+      font-size: 50px;
+      font-family: 'Fjalla One', sans-serif;
+    }
+
   }
