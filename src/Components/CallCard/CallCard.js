@@ -69,7 +69,7 @@ export const CallCard = ({name, index, cperson, cpersondesig, site, whatsapp, id
             <input type="text" value={newname} disabled = {editcall} onChange = {(e) => {setNewname(e.target.value)}}/>
         </div>
         <div className="ccarddiv">
-            <span>Comapany Website</span>
+            <span>Company Website</span>
             <input type="text" value={newsite} disabled = {editcall} onChange = {(e) => {setNewsite(e.target.value)}}/>
         </div>
         <div className="ccarddiv">

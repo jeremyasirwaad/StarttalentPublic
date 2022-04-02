@@ -12,6 +12,8 @@ import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
 import AnimatedNumber from "react-animated-number";
 import logo from "../StartTalent.gif";
+import { Link } from "@material-ui/core";
+
 
 export const TableFilter = () => {
 	const [sidenavopen, setSidenavopen] = useState(false);
@@ -113,15 +115,15 @@ export const TableFilter = () => {
 		<div>
 			{loaded ? (
 				<div className="startupload">
-					<img src={require("../StartTalent.gif")} alt="loading..." />
+					<img src={require("../Tablefilter/StartTalent.png")} alt="loading..." />
 				</div>
 			) : (
 				<div>
 					<div className="navbarforedit">
 						<div className="editnavcontainer">
 							<div className="titledivfornav">
-								{/* <img className="logo" src={logo} alt="Logo" /> */}
-								<h2 style={{ marginBottom: "0px" }}>StartTalent</h2>
+								{/* <img className="logo" src={require("../navlogo.png")} alt="Logo" /> */}
+								<h2 style={{ marginBottom: "0px" }}>StartUp Gateway</h2>
 							</div>
 							{/* <i
 								class={
@@ -178,7 +180,7 @@ export const TableFilter = () => {
 										lookup: dynamicobj,
 									},
 									{
-										title: "Type of Job",
+										title: "Available For",
 										field: "typeofjob",
 										lookup: {
 											Internship: "Internship",
@@ -187,7 +189,7 @@ export const TableFilter = () => {
 										},
 									},
 									{
-										title: "Skill",
+										title: "Primary Skill",
 										field: "interest",
 										lookup: {
 											Fullstack: "Fullstack",
@@ -254,7 +256,24 @@ export const TableFilter = () => {
 										field: "placementCompany",
 										lookup: dynamicobjcompname,
 									},
-									{ title: "Stipend", field: "Stipend" },
+									{
+										title: "Link",
+										field: "CompanyWebsite",
+										cellStyle: { zIndex: "100", pointerEvents: "none" },
+										render: (rowdata) => (
+											<div>
+												<Link
+													onClick={() => {
+														window.open(rowdata.CompanyWebsite);
+													}}
+													style={{ pointerEvents: "all", zIndex: "100" }}
+												>
+													{rowdata.CompanyWebsite}
+												</Link>
+											</div>
+										),
+									},
+									
 								]}
 								options={{
 									search: false,
@@ -262,6 +281,7 @@ export const TableFilter = () => {
 										pdf: true,
 										csv: true,
 									},
+									exportAllData: true,
 									filtering: true,
 									headerStyle: {
 										zIndex: 0,
@@ -273,6 +293,7 @@ export const TableFilter = () => {
 									rowStyle: {
 										fontFamily: "Rubik",
 									},
+									pageSize: 20
 								}}
 								data={tabledata}
 								title={"Placement Data"}

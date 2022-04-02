@@ -260,7 +260,7 @@ export const FinishedDetails = () => {
 				<div className="editnavcontainer">
 				<div className="titledivfornav">
 						{/* <img className="logo" src={logo} alt="Logo" /> */}
-						<h2 style={{ marginBottom: "0px" }}>StartTalent</h2>
+						<h2 style={{ marginBottom: "0px" }}>StartUp Gateway</h2>
 					</div>
 					<i
 						class={
@@ -274,7 +274,7 @@ export const FinishedDetails = () => {
 					></i>
 				</div>
 			</div>
-			<SideNav sidenavstatus={sidenavopen} toastmanager={toastsucess} />
+			{/* <SideNav sidenavstatus={sidenavopen} toastmanager={toastsucess} /> */}
 			<ToastContainer />
 			<div style={{ height: "70px", width: "100vw" }}></div>
 			<div className="detailspage">
@@ -406,7 +406,7 @@ export const FinishedDetails = () => {
 								/>
 							</div>
 							<div className="detaildiv">
-								<span>ContactNo: </span>
+								<span>Contact No: </span>
 								<input
 									type="text"
 									value={contactno}
@@ -561,17 +561,7 @@ export const FinishedDetails = () => {
 											}}
 										/>
 									</div>
-									<div className="placeinnercont">
-										<span>Stipend: </span>
-										<input
-											type="text"
-											disabled={editplcament}
-											value={placestipend}
-											onChange={(e) => {
-												setPlacestipend(e.target.value);
-											}}
-										/>
-									</div>
+									
 									<div className="placeinnercont">
 										<span>Whatsapp Grp: </span>
 										<input
