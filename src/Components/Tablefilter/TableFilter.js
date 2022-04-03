@@ -312,7 +312,7 @@ export const TableFilter = () => {
 						</div>
 					</div>
 					<div className="footerfortable">
-								<span>Created By gSARC Team 2022</span>
+								{/* <span>Created By gSARC Team 2022</span> */}
 					</div>
 				</div>
 			)}
