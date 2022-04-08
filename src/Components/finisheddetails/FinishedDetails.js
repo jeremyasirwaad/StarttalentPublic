@@ -18,10 +18,13 @@ import {
 	uploadBytesResumable,
 } from "firebase/storage";
 import { ref as sref } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 
 import "./Edit_show.css";
 import { toast, ToastContainer } from "react-toastify";
 export const FinishedDetails = () => {
+	const navigate = useNavigate();
+
 	const [numPages, setNumPages] = useState(null);
 	const [pageNumber, setPageNumber] = useState(1);
 	const [profilephone, setProfilephone] = useState([]);
@@ -49,6 +52,7 @@ export const FinishedDetails = () => {
 	const [resume, setResume] = useState("");
 	const [progress, setProgress] = useState(0);
 	const [url, setUrl] = useState("");
+
 
 	useEffect(() => {
 		if (type === "false") {
@@ -112,48 +116,39 @@ export const FinishedDetails = () => {
 	}
 	// console.log(profile.resume);
 	const updateHander = () => {
-
 		let batchlist;
 		onValue(ref(db, "/yeardata/year"), (snapshot) => {
-			if(snapshot.val() !== null & snapshot.val() !==undefined)
-			{
+			if ((snapshot.val() !== null) & (snapshot.val() !== undefined)) {
 				batchlist = snapshot.val();
 			}
-		})
+		});
 
-
-		if(batchlist !== null && batchlist !== undefined)
-		{
-			batchlist = batchlist.filter((e) => !e.includes((id + 1).slice(0,11)));
+		if (batchlist !== null && batchlist !== undefined) {
+			batchlist = batchlist.filter((e) => !e.includes((id + 1).slice(0, 11)));
 			// console.log(batchlist1)
-			batchlist.push( id.slice(0,11) + batch);
+			batchlist.push(id.slice(0, 11) + batch);
 
-			update(ref(db, "/yeardata"),{
-				year: batchlist 
-			})
+			update(ref(db, "/yeardata"), {
+				year: batchlist,
+			});
 		}
-
 
 		let departlist;
 		onValue(ref(db, "/departdata/depart"), (snapshot) => {
-			if(snapshot.val() !== null & snapshot.val() !==undefined)
-			{
+			if ((snapshot.val() !== null) & (snapshot.val() !== undefined)) {
 				departlist = snapshot.val();
 			}
-		})
+		});
 
-
-		if(departlist !== null && departlist !== undefined)
-		{
-			departlist = departlist.filter((e) => !e.includes((id + 1).slice(0,11)));
+		if (departlist !== null && departlist !== undefined) {
+			departlist = departlist.filter((e) => !e.includes((id + 1).slice(0, 11)));
 			// console.log(batchlist1)
-			departlist.push( id.slice(0,11) + department);
+			departlist.push(id.slice(0, 11) + department);
 
-			update(ref(db, "/departdata"),{
-				depart: departlist 
-			})
+			update(ref(db, "/departdata"), {
+				depart: departlist,
+			});
 		}
-
 
 		update(ref(db, "/finished" + `/${id}`), {
 			name,
@@ -173,25 +168,23 @@ export const FinishedDetails = () => {
 	};
 
 	const updateplacementhandler = () => {
-
 		let compnamelis;
 		onValue(ref(db, "/compnamedata/companylist"), (snapshot) => {
-			if(snapshot.val() !== null & snapshot.val() !==undefined)
-			{
+			if ((snapshot.val() !== null) & (snapshot.val() !== undefined)) {
 				compnamelis = snapshot.val();
 			}
-		})
+		});
 
-
-		if(compnamelis !== null && compnamelis !== undefined)
-		{
-			compnamelis = compnamelis.filter((e) => !e.includes((id + 1).slice(0,11)));
+		if (compnamelis !== null && compnamelis !== undefined) {
+			compnamelis = compnamelis.filter(
+				(e) => !e.includes((id + 1).slice(0, 11))
+			);
 			// console.log(compnamelis1)
-			compnamelis.push( id.slice(0,11) + placename);
+			compnamelis.push(id.slice(0, 11) + placename);
 
-			update(ref(db, "/compnamedata"),{
-				companylist: compnamelis 
-			})
+			update(ref(db, "/compnamedata"), {
+				companylist: compnamelis,
+			});
 		}
 
 		update(ref(db, "/finished" + `/${id}`), {
@@ -240,27 +233,24 @@ export const FinishedDetails = () => {
 				// setUrl(url)
 			}
 		);
-
-		
 	};
 
-
 	const subresume = () => {
-		update(ref(db, "/finished" + `/${id}`),{
-			resume: url
-		})
+		update(ref(db, "/finished" + `/${id}`), {
+			resume: url,
+		});
 
 		setResume("");
 		setProgress(0);
-	}
+	};
 
 	return (
 		<div>
 			<div className="navbarforedit">
 				<div className="editnavcontainer">
-				<div className="titledivfornav">
+					<div className="titledivfornav">
 						{/* <img className="logo" src={logo} alt="Logo" /> */}
-						<h2 style={{ marginBottom: "0px" }}>StartUp Gateway</h2>
+						<h2 style={{ marginBottom: "0px", cursor: "pointer" }}  onClick ={() => { navigate(`/`); }}>StartUp Gateway</h2>
 					</div>
 					<i
 						class={
@@ -307,26 +297,6 @@ export const FinishedDetails = () => {
 												getResume(e);
 											}}
 										/>
-										
-									</div>
-								) : (
-									
-									progress === 100 ? <lable style = {{backgroundColor:"blueviolet", padding: "5px", color:"white", cursor:"pointer"}} onClick = {() => { subresume(); }}>Done</lable> : <label for="file" style={{ backgroundColor:"blueviolet", padding: "5px", color:"white", cursor:"pointer" }} onClick={() => { uploadResume(); }}>Upload Choosen Resume - {progress}%</label>
-			
-								)}
-							</div>
-						) : (
-							<div className="pdfview">
-								<Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
-									<Viewer
-										fileUrl={`${profile.resume}?#zoom=40`}
-										plugins={[defaultLayoutPluginInstance]}
-										// defaultScale = {0.5}
-									/>
-								</Worker>
-								{resume === "" ? (
-									<div className="noresumeconfig" style={{marginTop:'10px'}}>
-										
 									</div>
 								) : progress === 100 ? (
 									<lable
@@ -335,7 +305,6 @@ export const FinishedDetails = () => {
 											padding: "5px",
 											color: "white",
 											cursor: "pointer",
-											marginTop:'10px'
 										}}
 										onClick={() => {
 											subresume();
@@ -351,8 +320,6 @@ export const FinishedDetails = () => {
 											padding: "5px",
 											color: "white",
 											cursor: "pointer",
-											marginTop:'10px'
-
 										}}
 										onClick={() => {
 											uploadResume();
@@ -361,16 +328,60 @@ export const FinishedDetails = () => {
 										Upload Choosen Resume - {progress}%
 									</label>
 								)}
-							
+							</div>
+						) : (
+							<div className="pdfview">
+								<Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
+									<Viewer
+										fileUrl={`${profile.resume}?#zoom=40`}
+										plugins={[defaultLayoutPluginInstance]}
+										// defaultScale = {0.5}
+									/>
+								</Worker>
+								{resume === "" ? (
+									<div
+										className="noresumeconfig"
+										style={{ marginTop: "10px" }}
+									></div>
+								) : progress === 100 ? (
+									<lable
+										style={{
+											backgroundColor: "blueviolet",
+											padding: "5px",
+											color: "white",
+											cursor: "pointer",
+											marginTop: "10px",
+										}}
+										onClick={() => {
+											subresume();
+										}}
+									>
+										Done
+									</lable>
+								) : (
+									<label
+										for="file"
+										style={{
+											backgroundColor: "blueviolet",
+											padding: "5px",
+											color: "white",
+											cursor: "pointer",
+											marginTop: "10px",
+										}}
+										onClick={() => {
+											uploadResume();
+										}}
+									>
+										Upload Choosen Resume - {progress}%
+									</label>
+								)}
 							</div>
 						)}
 						<div className="detailsofprofile" style={{ marginTop: "30px" }}>
 							<div className="headingdetails">
 								<h3>
-									Details of the{" "}
-									<span style={{ color: "blueviolet" }}>Student</span>
+									Details of the <span>Student</span>
 								</h3>
-								
 							</div>
 							<div className="detaildiv">
 								<span>Name: </span>
@@ -426,11 +437,13 @@ export const FinishedDetails = () => {
 									}}
 								>
 									<option value="Fullstack">FullStack</option>
-									<option value="Datascience&Analytics">Data Science & Analytics</option>
+									<option value="Datascience&Analytics">
+										Data Science & Analytics
+									</option>
 									<option value="Dataengineering">Data Engineering</option>
 									<option value="DigitalMarketing">Data Marketing</option>
 									<option value="IOT">IOT</option>
-									<option value="Blockchain">Block Chain</option>
+									<option value="Blockchain">BlockChain</option>
 								</select>
 							</div>
 							<div className="detaildiv">
@@ -466,7 +479,7 @@ export const FinishedDetails = () => {
 						</div>
 						<div className="calldetailslist">
 							<h3>
-								<span style={{ color: "blueviolet" }}>Call</span> Details
+								<span>Call</span> Details
 							</h3>
 							<div className="calllist">
 								{profilephone === null ? (
@@ -496,9 +509,8 @@ export const FinishedDetails = () => {
 							<div className="placementheading">
 								{" "}
 								<h3>
-									<span style={{ color: "blueviolet" }}>Placement</span> Details
+									<span>Placement</span> Details
 								</h3>
-								
 							</div>
 
 							{placename === undefined ||
@@ -518,7 +530,7 @@ export const FinishedDetails = () => {
 							) : (
 								<div className="placecont">
 									<div className="placeinnercont">
-										<span>CompanyName: </span>
+										<span>Company Name: </span>
 										<input
 											type="text"
 											value={placename}
@@ -561,7 +573,7 @@ export const FinishedDetails = () => {
 											}}
 										/>
 									</div>
-									
+
 									<div className="placeinnercont">
 										<span>Whatsapp Grp: </span>
 										<input
@@ -578,6 +590,9 @@ export const FinishedDetails = () => {
 						</div>
 					</div>
 				</div>
+			</div>
+			<div className="footerfortable">
+				
 			</div>
 		</div>
 	);

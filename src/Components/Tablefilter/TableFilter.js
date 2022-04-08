@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { SideNav } from "../SideNav/SideNav";
 import { onValue, ref, set, update } from "firebase/database";
 import { db } from "../Config/fireBaseFile";
-import MaterialTable from "material-table";
+import MaterialTable, { MTableBodyRow } from "material-table";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TextField from "@mui/material/TextField";
@@ -13,7 +13,8 @@ import { useNavigate } from "react-router-dom";
 import AnimatedNumber from "react-animated-number";
 import logo from "../StartTalent.gif";
 import { Link } from "@material-ui/core";
-
+import Tooltip from "@mui/material/Tooltip";
+import ReactTooltip from "react-tooltip";
 
 export const TableFilter = () => {
 	const [sidenavopen, setSidenavopen] = useState(false);
@@ -115,7 +116,10 @@ export const TableFilter = () => {
 		<div>
 			{loaded ? (
 				<div className="startupload">
-					<img src={require("../Tablefilter/StartTalent.png")} alt="loading..." />
+					<img
+						src={require("../Tablefilter/StartTalent.png")}
+						alt="loading..."
+					/>
 				</div>
 			) : (
 				<div>
@@ -123,7 +127,8 @@ export const TableFilter = () => {
 						<div className="editnavcontainer">
 							<div className="titledivfornav">
 								{/* <img className="logo" src={require("../navlogo.png")} alt="Logo" /> */}
-								<h2 style={{ marginBottom: "0px" }}>StartUp Gateway</h2>
+						
+								<h2 style={{ marginBottom: "0px", cursor: "pointer" }} onClick ={() => { navigate(`/`); }}>StartUp Gateway</h2>
 							</div>
 							{/* <i
 								class={
@@ -150,8 +155,7 @@ export const TableFilter = () => {
 									<AnimatedNumber
 										className="titlenumber"
 										value={fulls}
-										formatValue = {n => n.toFixed(0)}
-
+										formatValue={(n) => n.toFixed(0)}
 									></AnimatedNumber>
 								</div>
 								<div className="placementinfocard">
@@ -159,16 +163,32 @@ export const TableFilter = () => {
 									<AnimatedNumber
 										className="titlenumber"
 										value={intern}
-										formatValue = {n => n.toFixed(0)}
+										formatValue={(n) => n.toFixed(0)}
 									></AnimatedNumber>
 								</div>
 							</div>
 							<MaterialTable
-								onRowClick={(event, rowData) => {
-									navigate(`/finished/false/${rowData.uuid}`);
-								}}
+								// onRowClick={(event, rowData) => {
+								// 	// navigate(`/finished/false/${rowData.uuid}`);
+								// }}
 								columns={[
-									{ title: "Name", field: "name" },
+									{
+										title: "Name",
+										field: "name",
+										render: (rowdata) => (
+											<div>
+												<Link
+													onClick={() => {
+														navigate(`/finished/false/${rowdata.uuid}`);
+													}}
+													style={{ cursor:"pointer", zIndex: "100" }}
+												>
+													{rowdata.name}
+												</Link>
+											</div>
+											// <TableRowColumn title='Text to be displayed in the Tool Tip'>Hover me</TableRowColumn>
+										),
+									},
 									{
 										title: "Department",
 										field: "department",
@@ -180,7 +200,7 @@ export const TableFilter = () => {
 										lookup: dynamicobj,
 									},
 									{
-										title: "Available For",
+										title: "Job Type",
 										field: "typeofjob",
 										lookup: {
 											Internship: "Internship",
@@ -193,11 +213,11 @@ export const TableFilter = () => {
 										field: "interest",
 										lookup: {
 											Fullstack: "Fullstack",
-											"Datascience&Analytics": "Datascience & Analytics",
-											Dataengineering: "Dataengineering",
-											DigitalMarketing: "DigitalMarketing",
+											"Datascience&Analytics": "Data Science & Analytics",
+											Dataengineering: "Data Engineering",
+											DigitalMarketing: "Digital Marketing",
 											IOT: "IOT",
-											Blockchain: "Block Chain",
+											Blockchain: "BlockChain",
 										},
 									},
 									{
@@ -224,8 +244,8 @@ export const TableFilter = () => {
 													name1 = name1 + e.name;
 												});
 											}
-											// console.log(term.join(""));
-											// console.log(name1.toString());
+											console.log(term.join(""));
+											console.log(name1.toString());
 											if (
 												name1
 													.toLowerCase()
@@ -247,19 +267,33 @@ export const TableFilter = () => {
 													return e.name + ", ";
 												});
 												return list;
+												// return phonedata.length
 											}
 										},
 										export: false,
 									},
+									// {
+									// 	title: "Company Placed",
+									// 	field: "placementCompany",
+									// 	lookup: dynamicobjcompname,
+									// },
 									{
-										title: "Company Placed",
-										field: "placementCompany",
-										lookup: dynamicobjcompname,
-									},
-									{
-										title: "Link",
+										title: "Company Joined",
 										field: "CompanyWebsite",
-										cellStyle: { zIndex: "100", pointerEvents: "none" },
+										cellStyle: { zIndex: "100", cursor:"pointer" },
+										lookup: dynamicobjcompname,
+										customFilterAndSearch: (term, rowdata) => {
+											if (term.length === 0) {
+												return true;
+											} else {
+												if (rowdata.placementCompany === term.join("")) {
+													return true;
+												} else {
+													return false;
+												}
+											}
+										},
+
 										render: (rowdata) => (
 											<div>
 												<Link
@@ -268,12 +302,12 @@ export const TableFilter = () => {
 													}}
 													style={{ pointerEvents: "all", zIndex: "100" }}
 												>
-													{rowdata.CompanyWebsite}
+													{rowdata.placementCompany}
 												</Link>
 											</div>
+											// <TableRowColumn title='Text to be displayed in the Tool Tip'>Hover me</TableRowColumn>
 										),
 									},
-									
 								]}
 								options={{
 									search: false,
@@ -293,7 +327,7 @@ export const TableFilter = () => {
 									rowStyle: {
 										fontFamily: "Rubik",
 									},
-									pageSize: 20
+									pageSize: 20,
 								}}
 								data={tabledata}
 								title={"Placement Data"}
@@ -308,11 +342,24 @@ export const TableFilter = () => {
 										},
 									},
 								]}
+								components={{
+									Row: (props) => {
+										return (
+											<MTableBodyRow
+												{...props}
+												onMouseEnter={(e) => console.log(e)}
+												onMouseLeave={(e) => console.log(e)}
+											></MTableBodyRow>
+										);
+									},
+								}}
 							/>
 						</div>
 					</div>
 					<div className="footerfortable">
-								{/* <span>Created By gSARC Team 2022</span> */}
+						<span>
+							"An initiative of GCT Coimbatore Student Alumni Relationship Cell"
+						</span>
 					</div>
 				</div>
 			)}

@@ -25,7 +25,7 @@
 
 .callcardhead{
     color: blueviolet;
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 .callcardheaddiv{
     display: flex;
