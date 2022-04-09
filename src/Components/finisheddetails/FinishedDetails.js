@@ -53,7 +53,6 @@ export const FinishedDetails = () => {
 	const [progress, setProgress] = useState(0);
 	const [url, setUrl] = useState("");
 
-
 	useEffect(() => {
 		if (type === "false") {
 			setEdit(true);
@@ -250,9 +249,16 @@ export const FinishedDetails = () => {
 				<div className="editnavcontainer">
 					<div className="titledivfornav">
 						{/* <img className="logo" src={logo} alt="Logo" /> */}
-						<h2 style={{ marginBottom: "0px", cursor: "pointer" }}  onClick ={() => { navigate(`/`); }}>StartUp Gateway</h2>
+						<h2
+							style={{ marginBottom: "0px", cursor: "pointer" }}
+							onClick={() => {
+								navigate(`/`);
+							}}
+						>
+							StartUp Gateway
+						</h2>
 					</div>
-					<i
+					{/* <i
 						class={
 							sidenavopen
 								? " fa-solid fa-arrow-left nope"
@@ -261,7 +267,7 @@ export const FinishedDetails = () => {
 						onClick={() => {
 							sidenavmanager();
 						}}
-					></i>
+					></i> */}
 				</div>
 			</div>
 			{/* <SideNav sidenavstatus={sidenavopen} toastmanager={toastsucess} /> */}
@@ -428,7 +434,7 @@ export const FinishedDetails = () => {
 								/>
 							</div>
 							<div className="detaildiv">
-								<span>Field Of Interest:</span>
+								<span>Primary Skill</span>
 								<select
 									value={interest}
 									disabled={edit}
@@ -530,7 +536,7 @@ export const FinishedDetails = () => {
 							) : (
 								<div className="placecont">
 									<div className="placeinnercont">
-										<span>Company Name: </span>
+										<span>Company Joined: </span>
 										<input
 											type="text"
 											value={placename}
@@ -592,7 +598,7 @@ export const FinishedDetails = () => {
 				</div>
 			</div>
 			<div className="footerfortable">
-				
+				<span>GCT Coimbatore Initiative</span>
 			</div>
 		</div>
 	);

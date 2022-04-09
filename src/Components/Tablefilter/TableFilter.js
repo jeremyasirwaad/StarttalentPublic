@@ -358,7 +358,7 @@ export const TableFilter = () => {
 					</div>
 					<div className="footerfortable">
 						<span>
-							"An initiative of GCT Coimbatore Student Alumni Relationship Cell"
+							GCT Coimbatore Initiative
 						</span>
 					</div>
 				</div>
