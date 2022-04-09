@@ -279,7 +279,7 @@ export const TableFilter = () => {
 									// },
 									{
 										title: "Company Joined",
-										field: "CompanyWebsite",
+										field: "placementCompany",
 										cellStyle: { zIndex: "100", cursor:"pointer" },
 										lookup: dynamicobjcompname,
 										customFilterAndSearch: (term, rowdata) => {
